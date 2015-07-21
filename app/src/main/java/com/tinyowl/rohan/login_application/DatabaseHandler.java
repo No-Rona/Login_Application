@@ -1,0 +1,126 @@
+package com.tinyowl.rohan.login_application;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+
+import butterknife.OnClick;
+
+/**
+ * Created by rohan on 20/07/15.
+ */
+
+
+public class DatabaseHandler extends SQLiteOpenHelper{
+
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "Users";
+    private static final String TABLE_USERS = "users";
+
+    private static final String KEY_ID = "id";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_PASS = "password";
+
+    public DatabaseHandler(Context context) {
+
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        addUsers(new Users("admin", "admin"));
+        addUsers(new Users("rohan", "rohan"));
+
+    }
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL("CREATE TABLE " + TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+                + KEY_PASS + " TEXT" + ")");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        onCreate(db);
+
+    }
+
+
+    void addUsers(Users users) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, users.getName());
+        values.put(KEY_PASS, users.getPassword());
+
+
+        db.insert(TABLE_USERS, null, values);
+        db.close();
+    }
+
+
+    Users getUser(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID, KEY_NAME, KEY_PASS }, KEY_NAME + "=?",
+                new String[] { name }, null, null, null, null);
+
+        Users user1 = null;
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                user1 = new Users(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+            }
+            cursor.close();
+
+        }
+
+
+        return user1;
+    }
+
+    public boolean checkUser(String name, String pass) {
+
+        Users checkUser = getUser(name);
+
+        if (checkUser == null) {
+            return false;
+        }
+
+        if (checkUser.getPassword().equals(pass)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    public int updateUsers(Users users) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, users.getName());
+        values.put(KEY_PASS, users.getPassword());
+
+        return db.update(TABLE_USERS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(users.getID()) });
+    }
+
+
+    public void deleteUsers(Users Users) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USERS, KEY_ID + " = ?", new String[]{String.valueOf(Users.getID())});
+        db.close();
+    }
+
+
+
+}
+
