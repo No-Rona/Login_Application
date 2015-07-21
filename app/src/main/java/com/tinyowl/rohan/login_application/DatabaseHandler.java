@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -88,16 +89,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         Users checkUser = getUser(name);
 
-        if (checkUser == null) {
-            return false;
-        }
+        return checkUser != null && checkUser.getPassword().equals(pass);
 
-        if (checkUser.getPassword().equals(pass)) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
 
@@ -141,7 +134,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return usersList;
     }
 
+    public Cursor getDatabaseCursor() {
 
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        return sqLiteDatabase.rawQuery("SELECT id AS _id, * FROM " + TABLE_USERS, null);
+
+    }
 
 }
 

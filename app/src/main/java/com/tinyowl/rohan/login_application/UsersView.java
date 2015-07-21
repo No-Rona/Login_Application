@@ -1,6 +1,7 @@
 package com.tinyowl.rohan.login_application;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -8,16 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class UsersView extends ActionBarActivity {
 
-    @Bind(R.id.user_list_view)
     ListView mListView;
 
     @Override
@@ -25,11 +27,16 @@ public class UsersView extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_view);
 
+        mListView = (ListView)findViewById(R.id.user_list_view);
+
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         List<Pair<String, String>> userList = databaseHandler.getAllUsers();
+        Cursor cursor = databaseHandler.getDatabaseCursor();
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userList);
-        mListView.setAdapter(adapter);
+
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
+                cursor, new String[] {cursor.getColumnName(0), cursor.getColumnName(1)},  new int[]{R.id.text, R.id.text2}, 0);
+        mListView.setAdapter(simpleCursorAdapter);
 
     }
 
@@ -60,8 +67,4 @@ public class UsersView extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.user_list_view)
-    public void userListClicked() {
-
-    }
 }
