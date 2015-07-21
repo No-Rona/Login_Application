@@ -72,6 +72,8 @@ public class MainActivity extends ActionBarActivity {
 
         if (mDatabaseHandler.checkUser(username, password)) {
             Toast.makeText(this, "Verified", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, UsersView.class);
+            startActivity(intent);
         }
         else {
             Toast.makeText(this, "Wrong Credentials", Toast.LENGTH_SHORT).show();

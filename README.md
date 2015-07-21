@@ -10,8 +10,9 @@ New users can also be created.
 ##TODO##
 
 ```
-Security to be added
-Saving user state.
-Look over creating sessions for user.
+Add security to the passwords. Disallow direct access
+Add profile information to the sql table
+Create custom view for the list that allows profile views as well.
+Picture through image holders
 
 ```

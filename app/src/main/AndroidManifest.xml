@@ -24,6 +24,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tinyowl.rohan.login_application.MainActivity" />
         </activity>
+        <activity
+            android:name=".UsersView"
+            android:label="@string/title_activity_users_view" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,15 +1,14 @@
 package com.tinyowl.rohan.login_application;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
+import android.util.Pair;
 
-import butterknife.OnClick;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rohan on 20/07/15.
@@ -118,6 +117,28 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, KEY_ID + " = ?", new String[]{String.valueOf(Users.getID())});
         db.close();
+    }
+
+    public List<Pair<String, String>> getAllUsers() {
+
+        List<Pair<String, String>> usersList = new ArrayList<Pair<String, String>>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        String name, id;
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                name = cursor.getString(1);
+                id = cursor.getString(0);
+                usersList.add(new Pair<String, String>(id, name));
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return usersList;
     }
 
 

@@ -9,4 +9,6 @@
     <string name="signup_button_text">Sign Up</string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="create_new_user">Sign Up</string>
+    <string name="title_activity_users_view">UsersView</string>
+    <string name="action_logout">Log Out</string>
 </resources>

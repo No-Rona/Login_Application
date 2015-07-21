@@ -1,5 +1,6 @@
 package com.tinyowl.rohan.login_application;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import butterknife.OnClick;
 import static android.text.TextUtils.isEmpty;
 
 
+@SuppressWarnings("ConstantConditions")
 public class SignUp extends ActionBarActivity {
 
 
@@ -68,10 +70,11 @@ public class SignUp extends ActionBarActivity {
 
         mDatabaseHandler.addUsers(new Users(mSignupUsername.getText().toString(), mSignupPassword.getText().toString()));
         Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
+        finish();
 
     }
 
-    public boolean isEmpty(EditText etText) {
-        return etText.getText().toString().trim().length() == 0;
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() == 0;
     }
 }
