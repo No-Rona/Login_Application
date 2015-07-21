@@ -34,7 +34,7 @@ public class UsersView extends ActionBarActivity {
         Cursor cursor = databaseHandler.getDatabaseCursor();
 
 
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2,
                 cursor, new String[] {cursor.getColumnName(0), cursor.getColumnName(1)},  new int[]{R.id.text, R.id.text2}, 0);
         mListView.setAdapter(simpleCursorAdapter);
 
