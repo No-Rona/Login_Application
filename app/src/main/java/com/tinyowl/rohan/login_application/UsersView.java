@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,8 +36,12 @@ public class UsersView extends ActionBarActivity {
 
 
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2,
-                cursor, new String[] {cursor.getColumnName(0), cursor.getColumnName(1)},  new int[]{R.id.text, R.id.text2}, 0);
+                cursor, new String[] {cursor.getColumnName(2), cursor.getColumnName(1)},
+                new int[]{android.R.id.text1, android.R.id.text2}, 0);
+
+
         mListView.setAdapter(simpleCursorAdapter);
+
 
     }
 
@@ -63,6 +68,7 @@ public class UsersView extends ActionBarActivity {
             startActivity(intent);
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
