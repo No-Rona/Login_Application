@@ -3,9 +3,9 @@ package com.tinyowl.rohan.login_application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -25,21 +25,24 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_PASS = "password";
+    private static final String KEY_IMG = "icon";
 
     public DatabaseHandler(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
         addUsers(new Users("admin", "admin"));
         addUsers(new Users("rohan", "rohan"));
 
     }
 
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE " + TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_PASS + " TEXT" + ")");
+        db.execSQL("CREATE TABLE " + TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT UNIQUE,"
+                + KEY_PASS + " TEXT, " + KEY_IMG + " INT" + ")");
 
     }
 
@@ -52,13 +55,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
 
 
-    void addUsers(Users users) {
+    void addUsers(Users users) throws SQLiteConstraintException{
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, users.getName());
         values.put(KEY_PASS, users.getPassword());
-
+        values.put(KEY_IMG, users.getImage());
 
         db.insert(TABLE_USERS, null, values);
         db.close();
@@ -68,7 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     Users getUser(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID, KEY_NAME, KEY_PASS }, KEY_NAME + "=?",
+        Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_ID, KEY_NAME, KEY_PASS, KEY_IMG }, KEY_NAME + "=?",
                 new String[] { name }, null, null, null, null);
 
         Users user1 = null;
@@ -100,6 +103,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, users.getName());
         values.put(KEY_PASS, users.getPassword());
+        values.put(KEY_IMG, users.getImage());
 
         return db.update(TABLE_USERS, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(users.getID()) });

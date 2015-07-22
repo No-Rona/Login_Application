@@ -34,13 +34,24 @@ public class UsersView extends ActionBarActivity {
         List<Pair<String, String>> userList = databaseHandler.getAllUsers();
         Cursor cursor = databaseHandler.getDatabaseCursor();
 
-
+        /*  SimpleCursorAdapter called to populate the ListView with User data  */
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2,
-                cursor, new String[] {cursor.getColumnName(2), cursor.getColumnName(1)},
+                cursor, new String[] {cursor.getColumnName(2), cursor.getColumnName(4)},
                 new int[]{android.R.id.text1, android.R.id.text2}, 0);
 
-
         mListView.setAdapter(simpleCursorAdapter);
+
+
+        /*  Using Custom CursorAdapter to populate the ListView */
+
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, cursor, 0);
+
+        mListView.setAdapter(customCursorAdapter);
+
+
+
+
+
 
 
     }
