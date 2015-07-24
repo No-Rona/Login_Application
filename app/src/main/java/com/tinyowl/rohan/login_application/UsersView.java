@@ -2,6 +2,7 @@ package com.tinyowl.rohan.login_application;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -47,10 +48,6 @@ public class UsersView extends ActionBarActivity {
         CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, cursor, 0);
 
         mListView.setAdapter(customCursorAdapter);
-
-
-
-
 
 
 

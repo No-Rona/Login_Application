@@ -3,15 +3,20 @@ package com.tinyowl.rohan.login_application;
 import android.content.Intent;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +37,8 @@ public class MainActivity extends ActionBarActivity {
     Button mLogin;
     @Bind(R.id.signup_button)
     Button mSignUp;
+    @Bind(android.R.id.content)
+    View mMainContentView;
 
     DatabaseHandler mDatabaseHandler;
 
@@ -72,7 +79,9 @@ public class MainActivity extends ActionBarActivity {
     public void checkUser() {
 
         if (isEmpty(mUsername) || isEmpty(mPassword)) {
-            Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, "Please enter the Information", Snackbar.LENGTH_SHORT).show();
+            if (isEmpty(mUsername)) YoYo.with(Techniques.Shake).duration(1000).playOn(mUsername);
+            else YoYo.with(Techniques.Shake).duration(1000).playOn(mPassword);
             return;
         }
 
@@ -80,12 +89,12 @@ public class MainActivity extends ActionBarActivity {
         String password = mPassword.getText().toString();
 
         if (mDatabaseHandler.checkUser(username, password)) {
-            Toast.makeText(this, "Verified", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, "Verified...Please Wait", Snackbar.LENGTH_SHORT).show();
             Intent intent = new Intent(this, UsersView.class);
             startActivity(intent);
         }
         else {
-            Toast.makeText(this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, "Wrong Credentials Please Try Again", Snackbar.LENGTH_SHORT).show();
         }
 
     }
@@ -100,5 +109,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
     }
+
+
 
 }
