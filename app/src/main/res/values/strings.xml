@@ -11,4 +11,7 @@
     <string name="create_new_user">Sign Up</string>
     <string name="title_activity_users_view">UsersView</string>
     <string name="action_logout">Log Out</string>
+    <string name="username_error_snack">Please enter the Information</string>
+    <string name="password_error_snack">Incorrect Credentials Entered</string>
+    <string name="login_success">Verified...Please wait</string>
 </resources>

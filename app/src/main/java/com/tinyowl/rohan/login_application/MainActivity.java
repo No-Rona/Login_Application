@@ -1,27 +1,17 @@
 package com.tinyowl.rohan.login_application;
 
 import android.content.Intent;
-import android.net.LocalSocket;
-import android.net.LocalSocketAddress;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.Buffer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
     public void checkUser() {
 
         if (isEmpty(mUsername) || isEmpty(mPassword)) {
-            Snackbar.make(mMainContentView, "Please enter the Information", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, R.string.username_error_snack, Snackbar.LENGTH_SHORT).show();
             if (isEmpty(mUsername)) YoYo.with(Techniques.Shake).duration(1000).playOn(mUsername);
             else YoYo.with(Techniques.Shake).duration(1000).playOn(mPassword);
             return;
@@ -89,12 +79,12 @@ public class MainActivity extends ActionBarActivity {
         String password = mPassword.getText().toString();
 
         if (mDatabaseHandler.checkUser(username, password)) {
-            Snackbar.make(mMainContentView, "Verified...Please Wait", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, R.string.login_success , Snackbar.LENGTH_SHORT).show();
             Intent intent = new Intent(this, UsersView.class);
             startActivity(intent);
         }
         else {
-            Snackbar.make(mMainContentView, "Wrong Credentials Please Try Again", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mMainContentView, R.string.password_error_snack, Snackbar.LENGTH_SHORT).show();
         }
 
     }
