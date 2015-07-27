@@ -100,6 +100,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public int getNumber() {
+        return 0;
+    }
+
 
 
 }
